@@ -18,11 +18,27 @@
 
 # Linux编程环境搭建
 
-## 一、git工具
+## 一、Git工具
+
+<img src="./img/Git-Logo-1280x800.png" alt="Git for Data Science Applications (A Top Skill for 2020) | R-bloggers" style="zoom:33%;" />
 
 ### 1.1 版本控制
 
-### 1.2 git安装
+#### 1.1.1 版本控制
+
+#### 1.1.2 常见的版本控制工具
+
+>   Git
+>
+>   SVN（Subversion）
+>
+>   CVS（Concurrent Versions System）
+>
+>   VSS（Micorosoft Visual SourceSafe）
+>
+>   TFS（Team Foundation Server）
+
+### 1.2 Git安装
 
 #### 1.2.1 资料获取
 
@@ -222,3 +238,209 @@ $ git commit -m "加备注"	  # 对我们本次的推送加上注释
 
 #### 1.7.2 设置本机绑定SSH公钥，实现免密码登录
 
+当你注册完成后，就可以生成一下你本机的SSH公钥，将这个公钥配置给`gitee`或者`github`，这样在后续的推送中就可以免密码登录了。
+
+1.   在Git中输入ssh-keygne，生成本机的ssh密钥
+
+```shell
+# 生成ssh密钥指令     | 下面的指令使用一个人即可
+#	单纯的生成ssh密钥
+$ ssh-keygne
+# 	生成ssh密钥并通过-t rsa 添加  rsa加密算法
+$ ssh-keygne -t rsa
+```
+
+2.   当你使用完上面的指令后，在C盘的用户目录下面有一个`.ssh`的目录，当你使用了这个指令后，会就生成两个文件
+
+![image-20231230184010499](./img/image-20231230184010499.png)
+
+
+
+3.   打开gitee ，点击你的头像，然后点击设置
+
+<img src="./img/image-20231230184135021.png" alt="image-20231230184135021" style="zoom: 50%;" />
+
+
+
+4.   点击SSH公钥 ， 后面就是输入密码后就添加完成了
+
+![image-20231230184347722](./img/image-20231230184347722.png)
+
+5.   后面就可以在仓库中去新建仓库了
+
+#### 1.7.3 新建远程仓库
+
+
+
+### 1.8 本地代码推送到gitee和github
+
+#### 1.8.1 新建本地仓库
+
+1.   在本地文件夹内，右键点击Git Bash，打开git的命令行窗口
+2.   在命令行窗口中 输入 git init 用于初始化
+
+```shell
+$ git init	
+```
+
+运行完该命令后，会在你的文件夹内生成一个.git的隐藏文件
+
+>   注意：.git文件是隐藏文件，如果看不到就可以根据下图操作打开显示隐藏文件
+>
+>   ![image-20231230194030177](./img/image-20231230194030177.png)
+
+#### 1.8.2 链接远程仓库 - gitee
+
+1.   复制新建的远程仓库地址
+
+![image-20231230193602537](./img/image-20231230193602537.png)
+
+2.   在git中输入下面的命令，进行与远程仓库的链接
+
+```shell
+# 这里的url 就是你远程仓库的地址，进行替换即可
+$ git remote add origin [url] 
+```
+
+3.   更新本地仓库
+
+```shell
+# git pull origin master 是拉取远程仓库中master分支的代码到当前本地分支上
+# origin	是远程名
+# master	是远程仓库中的一个分支
+$ git pull origin master
+```
+
+#### 1.8.3 将本地内容推送到远程 - gitee
+
+1.   本地文件上传到缓存区
+
+```shell
+# 上传所有文件
+$ git add .
+# 上传指定文件
+$ git add [文件名]
+```
+
+2.   提交文件并添加注释
+
+```sh
+# "" 中为注释内容
+$ git commit -m "注释"
+```
+
+3.   将本地内容推送到远程
+
+```sh
+$ git push origin master
+```
+
+>   完成上面的操作，基本就对推送到远程这个事情就已经做完了， 我们可以去gitee中刷新一下，然后就可以看到我们的文件了
+
+#### 1.8.4 链接远程仓库 - github
+
+1.   查看当前远程仓库的设置
+
+```sh
+$ git remote -v
+```
+
+在这里会显示你的本地仓库，此时我们已经对gitee 进行远程链接了，所以我们就可以看到这些内容
+
+```
+origin-gitee <gitee仓库地址> (fetch)
+origin-gitee <gitee仓库地址> (push)
+```
+
+2.   将新建好的github链接到本地仓库
+
+```sh
+$ git remote add origin-github <github仓库地址>
+```
+
+#### 1.8.5 将本地内容推送到远程 - github
+
+1.   本地文件上传到缓存区
+
+```shell
+# 上传所有文件
+$ git add .
+# 上传指定文件
+$ git add [文件名]
+```
+
+2.   提交文件并添加注释
+
+```sh
+# "" 中为注释内容
+$ git commit -m "注释"
+```
+
+3.   将本地内容推送到远程
+
+```sh
+$ git push origin-github master
+```
+
+### 1.9 git的分支
+
+分支在GIT中相对较难，分支就是科幻电影里面的平行宇宙，如果两个平行宇宙互不干扰，那对现在的你也没啥影响。不过，在某个时间点，两个平行宇宙合并了，我们就需要处理一些问题了！
+
+![image-20231230200909182](./img/image-20231230200909182.png)
+
+#### 1.9.1 git分支相关命令
+
+```sh
+
+# 列出所有本地分支
+git branch
+
+# 列出所有远程分支
+git branch -r
+
+# 新建一个分支，但依然停留在当前分支
+git branch [branch-name]
+
+# 新建一个分支，并切换到该分支
+git checkout -b [branch]
+
+# 合并指定分支到当前分支
+$ git merge [branch]
+
+# 删除分支
+$ git branch -d [branch-name]
+
+# 删除远程分支
+$ git push origin --delete [branch-name]
+$ git branch -dr [remote/branch]
+```
+
+>   master主分支应该非常稳定，用来发布新版本，一般情况下不允许在上面工作，工作一般情况下在新建的dev分支上工作，工作完后，比如上要发布，或者说dev分支代码稳定后可以合并到主分支master上来。
+
+
+
+
+
+## 二、VIM 工具
+
+<img src="./img/vim-logo-png.png" alt="vim logo png 10 free Cliparts | Download images on Clipground 2023" style="zoom: 15%;" />
+
+#### 1.1 VIM安装
+
+1.   在终端中输入下面的指令进行安装
+
+```shell
+$ sudo apt install vim
+```
+
+#### 
+
+#### 1.2 
+
+
+
+
+
+
+
+![img](./img/vi-vim-cheat-sheet-sch1.gif)
