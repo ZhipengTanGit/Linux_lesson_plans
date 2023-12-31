@@ -272,17 +272,24 @@ VScode全称是Visual Studio Code，是微软推出的一个跨平台的编辑�
 
 
 
-##### 1.2.3.1 Linux系统配置
+#### 1.2.3 Linux系统配置
 
 >我们很多的设置都是在终端上进行的，所以我们首先需要掌握如何打开终端，通过键盘上的`ctrl + Alt + t` 就可以唤醒我们的终端界面了。
 
-###### 1 设置
+##### 1 设置系统分辨率
 
+当我们打开系统后，会发现我们的Linux系统显示并不完整，所以我们需要设置一下分别率
 
+```shell
+# 输入 xrandr查看设备的分辨率
+$ xrandr
+# 输入 xrandr -s [分辨率]
+$ xrandr -s [分辨率]
+```
 
+![image-20231231133028933](./img/image-20231231133028933.png)
 
-
-###### 2 设置root密码 
+##### 2 设置root密码 
 
 root是我们Linux的超级用户，相当于我们在使用Windows电脑的管理员权限，这个用户权限很大，各位在使用的过程中一定要注意。
 
@@ -293,11 +300,127 @@ $ sudo passwd
 $ su - root
 ```
 
+![image-20231231133231880](./img/image-20231231133231880.png)
 
 
-##### 1.2.3.2 Linux软件安装
 
-##### 1.2.3.3 Linux网络配置
+##### 3 更换 apt 软件源地址
+
+Linux是可以通过命令行直接进行软件的下载与安装的，但是由于国内网络的问题，我们需要使用国内的一些镜像源才可以进行顺利的软件安装与下载。
+
+在进行下面的操作之前，建议先把原有的软件源进行一下复制，防止后续操作中出现问题，使用下面这条命令
+
+```shell
+cp /etc/apt/sources.list /etc/apt/sources_copy.list 
+```
+
+
+
+###### ① 需要将`/etc/apt/sources.list` 文件打开并删除内部的内容
+
+```shell
+$ sudo vim /etc/apt/sources.list
+```
+
+![image-20231231135723458](./img/image-20231231135723458.png)
+
+
+
+###### ② 清除原有的源
+
+输入 `100dd` 用于清除所有源
+
+![image-20231231140040568](./img/image-20231231140040568.png)
+
+
+
+###### ③ 复制源到文件内部
+
+```sh
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse
+# deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
+# deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
+# deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse
+deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse
+# deb-src http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse
+```
+
+点击键盘上的`i`进入到插入模式，然后拷贝到文件内部
+
+
+
+![image-20231231145415070](./img/image-20231231145415070.png)
+
+当然也可以使用下面的这个清华大学的源
+
+>   清华大学源 ： [ubuntu | 镜像站使用帮助 | 清华大学开源软件镜像站 | Tsinghua Open Source Mirror](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)
+>
+>   需要注意的是，在这个网站内选择源需要自己选择一下系统版本一定要对应才行
+
+
+
+###### ④ 更新镜像源
+
+```shell
+$ sudo  apt  update
+```
+
+更新中
+
+![image-20231231145702029](./img/image-20231231145702029.png)
+
+
+
+更新完成
+
+![image-20231231145717004](./img/image-20231231145717004.png)
+
+
+
+当然，我这个是更新了一次的，所以这个内容比较短。
+
+#### 1.2.3 Linux软件安装
+
+更新完成软件源后，我们就可以开始进行软件的安装了，我们很多的软件进行安装都是在终端命令行下进行操作的。
+
+##### 1 安装ssh服务器
+
+一般Ubuntu都会默认安装openssh-client,但是没有安装openssh-server。
+
+```sh
+$ sudo apt install openssh-server
+```
+
+一般来说，安装完成之后就已经启动了，我们可以通过下面的这条指令进行查看
+
+```sh
+& sudo systemctl status ssh
+```
+
+
+
+>   **如何连接ssh服务器**
+>
+>   在Windows中 使用 ` ssh username@ip`的方式进行链接到我们的Linux服务器
+
+##### 2 安装VIM编辑器
+
+```sh
+$ sudo apr install vim
+```
+
+##### 3 安装tftp服务器
+
+
+
+
+
+
+
+#### 1.2.3 Linux网络配置
 
 
 
